@@ -2,15 +2,28 @@ module Main
     (
     ) where
 
-import System.Environment (getArgs)
 import System.IO
 import Data.List (sort)
+import System.Console.ParseArgs
+
+arguments :: [Arg String]
+arguments =
+    [
+     Arg "nosort" (Just 'n') (Just "nosort") Nothing
+             "Does not sort the provided line numbers"
+    ]
 
 main = do
-  filename <- fmap (!!0) getArgs
-  lns <- fmap lines $ readFile filename
-  lineNos <- fmap (sort.map read.words) $ hGetContents stdin
-  mapM_ putStrLn $ filterLines lineNos lns
+  ags <- parseArgsIO ArgsTrailing arguments
+  let nosort = gotArg ags "nosort"
+      inpfile = head $ argsRest ags
+
+  --get file contents
+  lns <- fmap lines $ readFile inpfile
+  lineNos <- fmap (map read.words) $ hGetContents stdin
+
+  mapM_ putStrLn $
+        filterLines (if nosort then lineNos else sort lineNos) lns
 
 filterLines ns ls = filterLines' ns (zip [1..] ls)
 filterLines' [] _ = []

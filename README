@@ -1,0 +1,9 @@
+Program to fetch particular lines from a file.
+
+USAGE:
+
+./getlines "file to extract lines from" < "file with line numbers"
+
+NOTE:
+1) Line numbers can be separated by space, tab or newline.
+2) Line numbers do not need to be sorted. They are sorted internally.

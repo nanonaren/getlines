@@ -10,10 +10,11 @@ main = do
   filename <- fmap (!!0) getArgs
   lns <- fmap lines $ readFile filename
   lineNos <- fmap (sort.map read.words) $ hGetContents stdin
-  stuff lineNos (zip [1..] lns)
+  mapM_ putStrLn $ filterLines lineNos lns
 
-stuff [] _ = return ()
-stuff (n:lineNos) ((i,l):lns)
-          | i == n = putStrLn l >> stuff lineNos lns
-          | i < n = stuff (n:lineNos) lns
-          | otherwise = stuff lineNos ((i,l):lns)
+filterLines ns ls = filterLines' ns (zip [1..] ls)
+filterLines' [] _ = []
+filterLines' (n:ns) lns@((i,l):ls)
+    | i > n = filterLines' ns lns
+    | i == n = l : filterLines' ns ls
+    | otherwise = filterLines' (n:ns) $ dropWhile ((/=n).fst) lns

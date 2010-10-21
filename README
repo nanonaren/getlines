@@ -7,7 +7,9 @@ cabal install parseargs
 
 USAGE:
 
-./getlines "file to extract lines from" < "file with line numbers"
+1) ./getlines "file to extract lines from" < "file with line numbers"
+
+2) echo "3 2 1" | ./getlines "file"
 
 NOTE:
 1) Line numbers can be separated by space, tab or newline.

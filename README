@@ -1,16 +1,13 @@
 Program to fetch particular lines from a file.
 
-REQUIREMENTS:
-
-Need the parseargs package. To install this run
-cabal install parseargs
-
 USAGE:
 
-1) ./getlines "file to extract lines from" < "file with line numbers"
+1) cat linenumbers | ./getlines file
 
-2) echo "3 2 1" | ./getlines "file"
+2) echo 1 3 100 | ./getlines -n file
 
 NOTE:
 1) Line numbers can be separated by space, tab or newline.
-2) Line numbers do not need to be sorted. They are sorted internally. If you don't want it to sort then add the --nosort option
+2) Line numbers do not need to be sorted. They are sorted internally.
+   However, if the line numbers are sorted then you can supply the -n
+   flag to prevent sorting.
